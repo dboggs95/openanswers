@@ -1,0 +1,15 @@
+<% provide(:title, 'Edit Question') %>
+
+<ul class="nav">
+  <li class="nav-header navbar-text mr-2">
+    <h2>Editing Question</h2>
+  </li>
+  <li class="nav-item navbar-text">
+      <div class="btn-group">
+          <%= link_to 'Show', @question, class: "btn btn-primary"  %>
+          <%= link_to 'Back', questions_path, class: "btn btn-primary"  %>
+      </div>
+  </li>
+</ul>
+    <%= render 'form', user: @user %>
+<div>&nbsp;</div>

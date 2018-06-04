@@ -1,0 +1,35 @@
+    <% provide(:title, @user.name) %>
+    <div class="card" style="margin: 10px">
+        <div class="card-header">
+            <ul class="nav">
+                <li class="nav-header mr-auto">
+                    <h3><%= @user.name %> 
+                    <% if @user.admin %>
+                <span class="badge badge-danger">Admin</span></h3> 
+                <% end %>
+                </li>
+                 
+                <li class="nav-item nav-text">
+                    <div class="btn-group">
+                        <%= link_to 'Edit', edit_user_path, class: "btn btn-primary" %>
+                        <% if current_user.admin? && @user.id != 1 %>
+                            <%= link_to 'Destroy', @user, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-primary" %>
+                        <% end %>
+                        <% if current_user.admin? %>
+                        <%= link_to 'Back', users_path, class: "btn btn-primary" %>
+                        <% end %>
+                    </div>
+                </li>
+            </ul>
+            
+        </div>
+        <div class-"card-body">
+            <div class="media">
+                <%= gravatar_for @user, 128 %>
+                <div class="media-body" style="padding: 10px">
+                    <p><i class="fa fa-envelope" aria-hidden="true"></i> <%= @user.email %></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>&nbsp;</div>

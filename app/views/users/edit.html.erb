@@ -1,0 +1,16 @@
+<% provide(:title, 'Edit Account') %>
+<ul class="nav">
+  <li class="nav-header navbar-text mr-2">
+    <h2>Editing <%= @user.name %>'s Account</h2>
+  </li>
+  <li class="nav-item navbar-text">
+      <div class="btn-group">
+          <%= link_to 'Show', @user, class: "btn btn-primary"  %>
+          <% if current_user.admin? %>
+          <%= link_to 'Back', users_path, class: "btn btn-primary"  %>
+          <% end %>
+      </div>
+  </li>
+</ul>
+    <%= render 'form', user: @user %>
+<div>&nbsp;</div>

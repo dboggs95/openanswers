@@ -1,0 +1,40 @@
+<% if !current_user.nil? %>
+
+	  <div class="row">
+      <div class="col-md-6 col-md-offset-3">
+        
+    <%= form_with(model: [ @question, @question.comments.build ], local: true) do |form| %>
+        <% question = @question %>
+        <% if question.errors.any? %>
+          <div id="error_explanation">
+            <h2><%= pluralize(question.errors.count, "error") %> prohibited this question from being saved:</h2>
+      
+            <ul>
+            <% question.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+            </ul>
+          </div>
+        <% end %>
+
+  <div class="field">
+    <% form.label :body %>
+    <%= form.text_area :body, id: :body, class: 'form-control', :placeholder => 'Leave a comment.' %>
+  </div>
+  
+   <div class="field">
+    <%= form.number_field :user_id, :type => "hidden", :value => "#{current_user.id}" %>
+  </div>
+  
+    <div class="field">
+    <%= form.number_field :answer_id, :type => "hidden", :value => "#{@answer_id}" %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit 'Post', class: "btn btn-primary" %>
+  </div>
+<% end %>
+</div>
+</div>
+
+<% end %>

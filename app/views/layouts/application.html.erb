@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= yield(:title) %> - Open Answers</title>
+    <%= csrf_meta_tags %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+
+<header class="header">
+		<nav class="navbar">
+			<div class="container">
+				<div class="col-sm-3">
+					<ul class="navbar-nav">
+						<li class="navbar-brand">
+							<%= image_tag("logo.png", :alt => "logo", :class => "logo rounded") %> Open Answers
+						</li>
+					</ul>
+				</div>
+				<div class="col-sm-9">
+							<%= render :template => "search/index" %>
+				</div>
+			</div>
+		</nav>
+		<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+			<div class="container">
+			  <ul class="navbar-nav mr-auto">
+			    <li class="nav-item">
+			    	<%= link_to home_index_path, class: 'nav-link' do %>
+			    		<i class="fa fa-home" aria-hidden="true"></i> Home
+			    	<% end %>
+			    </li>
+			    <li class="nav-item">
+					<%= link_to questions_path, class: 'nav-link' do %>
+						<i class="fa fa-commenting-o" aria-hidden="true"></i> Questions
+					<% end %>
+				</li>
+				<li class="nav-item">
+					<%= link_to home_help_path, class: 'nav-link' do %>
+						<i class="fa fa-question-circle" aria-hidden="true"></i> Help
+					<% end %>
+				</li>
+			  </ul>
+			  <% if signed_in? %>
+			  <ul class="navbar-nav">
+			  	<% if current_user.admin %>
+			  	<li class="nav-item">
+					<%= link_to users_path, class: 'nav-link' do %>
+						<i class="fa fa-users" aria-hidden="true"></i> All Users
+					<% end %>
+				</li>
+				<% end %>
+			  	<li class="nav-item">
+					<%= link_to current_user, class: 'nav-link' do %>
+						<i class="fa fa-user" aria-hidden="true"></i> View Profile
+					<% end %>
+				</li>
+				<li class="nav-item">
+					<%= link_to edit_user_path(current_user.id), class: 'nav-link' do %>
+						<i class="fa fa-cogs" aria-hidden="true"></i> Edit Profile
+					<% end %>
+				</li>
+			    <li class="nav-item">
+					<%= link_to '/signout', class: 'nav-link' do %>
+						<i class="fa fa-sign-out" aria-hidden="true"></i> Sign out
+					<% end %>
+				</li>
+          	  </ul>
+          	  <% else %>
+			  <ul class="navbar-nav">
+			    <li class="nav-item">
+					<%= link_to '/signup', class: 'nav-link' do %>
+						<i class="fa fa-user-plus" aria-hidden="true"></i> Sign up
+					<% end %>
+				</li>
+				<li class="nav-item">
+					<%= link_to '/signin', class: 'nav-link' do %>
+						<i class="fa fa-sign-in" aria-hidden="true"></i> Sign in
+					<% end %>
+				</li>
+			  </ul>
+			  <% end %>
+		  	</div>
+		</nav>
+	</header>
+<div class="container">	
+  	<% flash.each do |message_type, message| %>
+		<div class="alert alert-<%= message_type %>"><%=message %></div>
+    <% end %>
+    <%flash.clear%>
+		  	<%= yield %>
+</div>
+    <footer class="footer">
+		<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+			<div class="container">
+				<span class="navbar-left navbar-text mr-auto">Ask, Comment, Answer, Code!</span>
+				<ul class="navbar-nav">
+					<li class="nav-item">
+						<%= link_to home_about_path, class: 'nav-link' do %>
+						<i class="fa fa-info-circle" aria-hidden="true"></i> About
+						<% end %>
+					</li>
+					<li class="nav-item">
+						<%= link_to home_contact_path, class: 'nav-link' do %>
+						<i class="fa fa-phone-square" aria-hidden="true"></i> Contact
+						<% end %>
+					</li>
+				</ul>
+			</div>
+		</nav>
+	</footer>
+
+  </body>
+</html>

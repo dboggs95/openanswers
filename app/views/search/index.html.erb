@@ -1,0 +1,6 @@
+<%= form_tag "/search", :class => "form-inline", :style => "width: 100%", :method => :get do |form| %>
+        <%= text_field_tag :query, params[:query], class: "form-control", :style => "width: 90%; z-index: 1;" %>
+        <%= button_tag(type: "submit", class: "btn btn-primary pointer", :style => "margin-left: -4px") do %>
+            <i class="fa fa-search" aria-hidden="true"></i>
+        <% end %>
+<% end %>

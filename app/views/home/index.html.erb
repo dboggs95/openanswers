@@ -1,0 +1,10 @@
+<% provide(:title, 'Home') %>
+
+<h2>Newest Questions</h2>
+<p>Answer these questions or <%= link_to 'ask', new_question_path %> a new one.</p>
+<table style="border: none; margin-left: 25px;">
+<% @questions.each do | question | %>
+      <tr><td style="border: none"><%= link_to question.title, question %></td></tr>  
+<% end %>
+</table>
+<div>&nbsp;</div>

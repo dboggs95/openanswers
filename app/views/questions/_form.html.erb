@@ -1,0 +1,55 @@
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+
+<%= form_with(model: @question, local: true) do |form| %>
+
+  <div class="field">
+    <%= form.label :title %>
+    <%= form.text_field :title, id: :question_title, class: 'form-control' %>
+  </div>
+
+  <div class="field">
+    <%= form.label :body %>
+    <%= form.text_area :body, id: :question_body, class: 'form-control' %>
+  </div>
+  
+  <button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#demo">Add Code Snippet</button>
+  <div id="demo" class="collapse">
+    <p>Insert the code in the textarea and then type the desired open source license in the text field beneath (or leave it blank for public domain).</p>
+    <div class="field">
+    <% form.label :code %>
+    <%= form.text_area :code, id: :body, class: 'form-control', :placeholder => 'Code snippet.'%>
+  </div>
+  
+  <div class="field">
+    <% form.label :license %>
+    <%= form.text_field :license, id: :body, class: 'form-control', :placeholder => 'License.'%>
+  </div>
+  </div>
+
+  <div class="field">
+    <% if signed_in? %>
+      <% if current_user.admin %>
+        <% if @question.user_id.nil? %>
+        <%= form.number_field :user_id, :value => "#{current_user.id}", id: :question_user_id %>
+        <% else %>
+          <%= form.number_field :user_id, :value => "#{@question.user_id}", id: :question_user_id %>
+          <% end %>
+      <% else %>
+        <% if @question.user_id.nil? %>
+        <%= form.number_field :user_id, :type => "hidden", :value => "#{current_user.id}", id: :question_user_id %>
+        <% else %>
+        <%= form.number_field :user_id, :type => "hidden", :value => "#{@question.user_id}", id: :question_user_id %>
+        <% end %>
+      <% end %>
+    <% else %>
+    <%= form.number_field :user_id, :type => "hidden", :value => "0", id: :question_user_id %>
+    <% end %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit 'Submit', class: "btn btn-primary"%>
+  </div>
+<% end %>
+</div>
+</div>

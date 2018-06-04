@@ -1,0 +1,81 @@
+<% provide(:title, 'Questions') %>
+<div>&nbsp;</div>
+<div class="card">
+	<div class="card-header">
+<h3><%= @question.title %></h3>
+<% if @question.user_id == 0 %>
+    <% user = nil %>
+    <% else %>
+<% user = User.find(@question.user_id) %>
+<% end %>
+<p>
+    <% if !user.nil? %>
+    
+    <% user = User.find_by(id: @question.user_id) %>
+  <%= gravatar_for user, 32 %>
+  
+   <%= user.name %>
+   <% else %>
+   Anonymous
+   <% end %>
+</p>
+    <div class="btn-group">
+    	
+       <% if signed_in? %>
+        <% if current_user.id == @question.user_id || current_user.admin %>
+        	<%= link_to 'Edit', edit_question_path, class: "btn btn-primary" %>
+        <% end %>
+        <% if current_user.admin %>
+		    	<%= link_to 'Destroy', @question, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-primary" %>
+		    <% end %>
+    	<% end %>
+    	<%= link_to 'Back', questions_path, class: "btn btn-primary" %>
+    </div>
+
+	</div>
+	<div class="card-text" style="padding: 10px">
+
+<p>
+  <span style='white-space: pre-line;'><%= @question.body  %></span>
+</p>
+<% if !@question.code.empty? %>
+				
+				<div style="border: 1px solid darkgrey; background-color: lightgrey; font-family: monospace;">
+				<p><span style='white-space: pre-line;'><%= @question.code %></span></p>
+				<% if !@question.license.empty? %>
+				<p style="color: green"><%= @question.license %></p>
+				<% else %>
+				<!--<p><a rel="license" href="http://creativecommons.org/publicdomain/mark/1.0/">
+<img src="http://i.creativecommons.org/p/mark/1.0/88x31.png"
+     style="border-style: none;" alt="Public Domain Mark" />
+</a></p>--> 	<p style="color: green">Public Domain</p>
+				<% end %>
+				</div>
+				<div>&nbsp;</div>
+				<% end %>
+<hr/>
+
+<div>&nbsp;</div>
+<div style="margin-left: 50px">
+    <%= render 'comments/view' %>	
+</div>
+
+	</div>
+</div>
+<br>
+
+
+<div class="card">
+	<div class="card-header">
+		<h3>Answers</h3>
+	</div>
+
+		
+
+	<div class="card-text" style="padding: 10px">
+<%= render 'answers/view' %>
+
+	</div>
+</div>
+
+<div>&nbsp;</div>

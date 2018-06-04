@@ -1,0 +1,41 @@
+
+	<% @edit = params[:edit_comment].to_i %>
+	
+	<% if @answer_id.nil? %>	
+	<% comments = @comments.where(answer_id: nil) %>
+	<% else %>
+	<% comments = @comments.where(answer_id: @answer_id) %>
+	<% end %>
+	<% if @comments.nil? %>
+		<p>No comments yet!</p>
+	<% else %>
+		<% comments.each do |comment| %>
+			<% if comment.id != @edit %>
+				<% if !comment.user_id.nil? && !User.where(id: comment.user_id).empty? %>
+					<% user = User.find(comment.user_id) %>
+					<small><%= gravatar_for user, 32 %> <%= user.name %></small>
+				<% else %>
+					<small>by: Destroyed User</small>
+				<% end %>
+				</h4>
+				<br/>
+				<span style='white-space: pre-line;'><%= comment.body %></span>
+				<br/>
+				<% if signed_in? %>
+					<% if current_user.id == comment.user_id || current_user.admin %>
+							<div class="btn-group">
+							<% @link = questions_path + "/" + comment.question_id.to_s + "?edit_comment=" + comment.id.to_s %>
+						<%= link_to 'Edit', @link, class: "btn btn-primary" %>
+						<%= link_to 'Destroy', [comment.question, comment], method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-primary" %>
+                        </div>
+					<% end %>
+			    <% end %>
+		    <% else %>
+		    	<% @comment = comment %>
+			    <%= render 'comments/edit', comment: @comment %>
+		    <% end %>
+		    <hr/>
+		<% end %>
+	<% end %>
+
+	<%= render 'comments/form' %>

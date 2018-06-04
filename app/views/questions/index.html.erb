@@ -1,0 +1,54 @@
+<% provide(:title, 'Questions') %>
+<ul class="nav">
+  <li class="nav-header navbar-text mr-2">
+    <h2>Questions</h2>
+  </li>
+  <li class="nav-item navbar-text">
+    <%= link_to 'Ask Question', new_question_path, class: "btn btn-primary" %>
+  </li>
+</ul>
+
+
+<% if !@questions || @questions.count == 0 %>
+<span>No results.</span>
+<% else %>
+<span>Showing <%= "#{@questions.size}" %> out of <%= "#{Question.all.count}" %> results.</span>
+
+<table style="border: none; margin-left: 25px;">
+<% @questions.each do | question | %>
+      <tr><td style="border: none"><%= link_to question.title, question %></td></tr>  
+<% end %>
+</table>
+
+<hr/>
+<div class="text-center" style="margin: 10px">
+    
+<% if !@questions.first_page? %>
+<%= link_to"Prev", questions_path(:page => @questions.prev_page) %>
+<% else %>
+<span class="disabled-link">Prev</span>
+<% end %>
+<span > | </span>
+<% i = 1 %>
+<% until i > @questions.total_pages do %>
+	<% if @questions.current_page == i %>
+		<span><%= "#{i.to_s} " %></span>
+	<% else %>
+		<%= link_to "#{i.to_s} ", questions_path(:page => i) %>
+	<% end %>
+	<% i += 1 %>
+<% end %>
+
+<span> | </span>
+
+<% if !@questions.last_page? %>
+<%= link_to"Next", questions_path(:page => @questions.next_page) %>
+<% else %>
+<span class="disabled-link">Next</span>
+
+</div>
+<% end %>
+<% end %>
+
+
+<div>&nbsp;</div>

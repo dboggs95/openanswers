@@ -1,0 +1,57 @@
+
+
+		<% @edit = params[:edit_answer].to_i %>
+		
+	<% if @answers.nil? %>
+		<p>No answers yet!</p>
+	<% else %>
+		<% @answers.each do |answer| %>
+			<% if answer.id != @edit %>
+				<% if !answer.user_id.nil? && !User.where(id: answer.user_id).empty? %>
+					<% user = User.find(answer.user_id) %>
+					<small><%= gravatar_for user, 32 %> <%= user.name %></small>
+				<% else %>
+					<small>by: Destroyed User</small>
+				<% end %>
+				</h4>
+				<p><span style='white-space: pre-line;'><%= answer.body %></span></p>
+				<% if !answer.code.empty? %>
+				
+				<div style="border: 1px solid darkgrey; background-color: lightgrey; font-family: monospace;">
+				<p><span style='white-space: pre-line;'><%= answer.code %></span></p>
+				<% if !answer.license.empty? %>
+				<p style="color: green"><%= answer.license %></p>
+				<% else %>
+				<!--<p><a rel="license" href="http://creativecommons.org/publicdomain/mark/1.0/">
+<img src="http://i.creativecommons.org/p/mark/1.0/88x31.png"
+     style="border-style: none;" alt="Public Domain Mark" />
+</a></p>--> 	<p style="color: green">Public Domain</p>
+				<% end %>
+				</div>
+				<div>&nbsp;</div>
+				<% end %>
+				
+				
+				<% if signed_in? %>
+					<% if current_user.id == answer.user_id || current_user.admin %>
+							<div class="btn-group">
+							<% @link = questions_path + "/" + answer.question_id.to_s + "?edit_answer=" + answer.id.to_s %>
+						<%= link_to 'Edit', @link, class: "btn btn-primary" %>
+						<%= link_to 'Destroy', [answer.question, answer], method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-primary" %>
+                        </div>
+					<% end %>
+			    <% end %>
+		    <% else %>
+		    	<% @answer = answer %>
+			    <%= render 'answers/edit', answer: @answer %>
+		    <% end %>
+		    <div>&nbsp;</div>
+		    <% @answer_id = answer.id %>
+		    <div style="margin-left: 50px">
+		    <%= render 'comments/view', answer_id: @answer_id %>
+		    </div>
+		    <hr/>
+		<% end %>
+	<% end %>
+
+<%= render 'answers/form' %>
